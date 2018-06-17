@@ -97,7 +97,12 @@ def main():
     predictors.extend(['app', 'device', 'os', 'channel', 'hour', 'day',
                        'ip_tcount', 'ip_tchan_count', 'ip_app_count',
                        'ip_app_os_count', 'ip_app_os_var',
-                       'ip_app_channel_var_day', 'ip_app_channel_mean_hour', 'nextClick', 'nextClick_shift'])
+                       'ip_app_channel_var_day', 'ip_app_channel_mean_hour', 'nextClick', 'nextClick_shift',
+                       'ip_app_count', 'ip_day_hour_count', 'ip_app_os_count', 'ip_day_hour_nunique',
+                       'ip_app_os_hour_var',
+                       'ip_os_device_next_click_time', 'ip_app_device_os_channel_next_click_time',
+                       'ip_os_device_app_next_click_time', 'ip_channel_previous_click_time',
+                       'ip_os_previous_click_time'])
 
     for i in range(0, 9):
         predictors.append("X%d" % (i))
@@ -129,14 +134,24 @@ def main():
         'ip_tchan_count': 'float32',
         'ip_app_os_var': 'float32',
         'ip_app_channel_var_day': 'float32',
-        'ip_app_channel_mean_hour': 'float32'
+        'ip_app_channel_mean_hour': 'float32',
+        # *************************************
+        'ip_app_count': 'uint16',
+        'ip_day_hour_count': 'uint16',
+        'ip_app_os_count': 'uint16',
+        'ip_day_hour_nunique': 'uint16',
+        'ip_app_os_hour_var': 'float32',
+        'ip_os_device_next_click_time': 'float32',
+        'ip_app_device_os_channel_next_click_time': 'float32',
+        'ip_os_device_app_next_click_time': 'float32',
+        'ip_channel_previous_click_time': 'float32',
+        'ip_os_previous_click_time': 'float32'
     }
 
     categorical = ['app', 'device', 'os', 'channel', 'hour', 'day']
 
-    train_data = pd.read_csv(TRAIN_PATH,usecols=predictors + ['is_attributed'],dtype=dtypes,index_col=False)
-    train_data.sample(frac=0.3,replace=True)
-    valid_data = pd.read_csv(VALID_PATH, usecols=predictors + ['is_attributed'], dtype=dtypes, index_col=False)
+    train_data = pd.read_csv(TRAIN_PATH,usecols=predictors + ['is_attributed'],dtype=dtypes,index_col=False,compression='bz2')
+    valid_data = pd.read_csv(VALID_PATH, usecols=predictors + ['is_attributed'], dtype=dtypes, index_col=False,compression='bz2')
 
 
 
